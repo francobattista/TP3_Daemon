@@ -1,0 +1,23 @@
+{
+  "name": "tp3_daemon",
+  "version": "1.0.0",
+  "description": "Gestión de copias de seguridad de una base de datos, comprimirlo / encriptarlo , enviando este backup a un servidor/repositorio/nube , almacenarlo allí e informar a ciertos usuarios por mail que una nueva copia de seguridad fue generada (o que hubo un error). Además, borrar una copia de seguridad que exceda una cantidad de días y el Daemon dejaría un log de todas las copias que fue haciendo. Todo esto utilizando systemd.",
+  "main": "ej_daemon.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francobattista/TP3_Daemon.git"
+  },
+  "author": "Franco Battista and Tobias Andrade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francobattista/TP3_Daemon/issues"
+  },
+  "homepage": "https://github.com/francobattista/TP3_Daemon#readme",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "http": "^0.0.1-security"
+  }
+}

@@ -1,0 +1,25 @@
+##### CONFIGS OF DAEMON #######
+
+daysBackup=1 #Days to exec the backup
+
+saveCopies=3 #How many copies want to save. Rotation
+
+engineDb=mysql #Engine of the database. Options: mysql, sqlserver
+
+databaseName=prueba
+
+databaseUser=prueba
+
+databasePassword=prueba
+
+encryptMethod=sha256 #Encrypt method
+
+mailSend=franco.battista99@outlook.com #Receptors
+
+server=drive #Server/cloud/repo to save the data. Options: drive (Google Drive), github
+
+driveUser=prueba
+
+drivePassword=prueba
+
+backupDir=./

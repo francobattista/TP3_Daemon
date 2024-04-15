@@ -1,16 +1,15 @@
 const daemonConfig = require('./daemon.config')
-const http = require('http')
 const fs = require('fs')
-const crypto = require('crypto');
 const { exec } = require('child_process')
 
-
 //Configuration of the Daemon
-let config = {};
+let config = {
+    currentDate: new Date().toISOString()
+};
 
 
 // Read daemon settings
-const readConf = async () => {
+const readConf = () => {
 
     const lines = fs.readFileSync(daemonConfig.config.configDir, 'utf-8').split('\n');
 
@@ -19,7 +18,6 @@ const readConf = async () => {
         if (line.trim() === '' || line.trim().startsWith('#')) {
             return;
         }
-    
     
         // Separe the comments
         const [keyValue, comments] = line.split('#');
@@ -40,8 +38,6 @@ const readConf = async () => {
 
     console.log(config);
 
-
-
 }
 
 
@@ -52,44 +48,61 @@ const sqlServerBackup = () => {
 
 const mysqlBackup = () => {
 
-    // Comando mysqldump para realizar la copia de seguridad
-    const command = `mysqldump -u ${config.databaseUser} -p ${config.databasePassword} ${config.databaseName} > ${config.backupDir}`;
-    
-    // Ejecuta el comando mysqldump, la salida recordar que tiene que ir al log
-    exec(command, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error al ejecutar el comando: ${error.message}`);
-        return;
-      }
-      if (stderr) {
-        console.error(`Error en la salida estándar: ${stderr}`);
-        return;
-      }
-      console.log(`Copia de seguridad exitosa. Salida estándar: ${stdout}`);
-    });
+    return new Promise(async (resolve, reject) => {
+        
+        const command = `mysqldump -u ${config.databaseUser} -p${config.databasePassword} ${config.databaseName} > ${config.backupDir}/${config.currentDate}.sql`;
+        
+        exec(command,(error, stdout, stderror) => {
+            if(error){
+                reject(error)
+            }
+            
+            resolve(stdout);        
+        });
+        
+    })
+
 }
 
 
 const makeBackup = () => {
 
-    switch(config.engineDb){
-        case 'mysql': {
-            mysqlBackup()
-            break;
-        }
-        case 'sqlserver': {
-            sqlServerBackup();
-            break;
-        }
-    }
-
+    return new Promise(async (resolve,reject) => {
+        switch(config.engineDb){
+            case 'mysql': {
+                await mysqlBackup()
+                console.log("break");
+                break;
+            }
+            case 'sqlserver': {
+                await sqlServerBackup();
+                break;
+            }
+        }    
+        resolve()
+    })
+    
 }
 
 
-const encryptData = () => {
+const encryptData = () =>  {
+    //Ejecuta en consola el comando para encriptar
+    return new Promise(async (resolve, reject) =>{
+        
+        const command = `openssl enc -${config.encryptMethod} -k ${config.secretKey} -salt -in ${config.backupDir}/${config.currentDate}.sql -out ${config.backupDir}/${config.currentDate}-encrypted.sql`;
+        console.log("Encriptando");
+        exec(command, (error, stdout, stderror) => {
+            if(error){
+                reject(error)
+            }
+            
+            resolve(stdout);
+        });
+        
+    })
 
 }
-
+  
 
 
 const uploadData = () => {
@@ -102,6 +115,16 @@ const sendMail = () => {
 }
 
 
+const deleteCurrentNotEncrypted =  () => {
+
+return new Promise(async (resolve, reject) => {
+    console.log("Borrando");
+    const deleted = await fs.unlinkSync(`${config.backupDir}/${config.currentDate}.sql`);
+    console.log("Borrado");
+    resolve(deleted)
+})
+
+}
 
 const deleteOldCopy = () => {
 
@@ -113,5 +136,17 @@ const writeLog = () => {
 
 }
 
-readConf();
-makeBackup()
+
+const initDaemon = async () => {
+    try {
+        readConf();
+        await makeBackup().catch((e) => {throw e});
+        await encryptData().catch((e) => {throw e});
+        await deleteCurrentNotEncrypted().catch((e) => {throw e});
+        console.log(config.currentDate + " Copia de seguridad completada correctamente y enviada al servidor")
+    } catch (error) {
+        console.error(config.currentDate + error)
+    }
+}
+
+initDaemon();

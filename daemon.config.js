@@ -1,7 +1,7 @@
 
 const config = {
     configDir: './daemon.conf.txt',
-    logDir: '/var/daemonPrueba/',
+    logDir: '/log/',
 }
 
 module.exports = {config}

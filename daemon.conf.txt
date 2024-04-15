@@ -8,11 +8,13 @@ engineDb=mysql #Engine of the database. Options: mysql, sqlserver
 
 databaseName=prueba
 
-databaseUser=prueba
+databaseUser=root
 
-databasePassword=prueba
+databasePassword=root
 
-encryptMethod=sha256 #Encrypt method
+encryptMethod=aes-256-cbc #sha256, etc Encrypt method
+
+secretKey=prueba
 
 mailSend=franco.battista99@outlook.com #Receptors
 
@@ -22,4 +24,4 @@ driveUser=prueba
 
 drivePassword=prueba
 
-backupDir=./
+backupDir=./backups

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/francobattista/TP3_Daemon#readme",
   "dependencies": {
     "crypto": "^1.0.1",
-    "http": "^0.0.1-security"
+    "http": "^0.0.1-security",
+    "logging": "^3.3.0"
   }
 }

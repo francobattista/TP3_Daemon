@@ -1,8 +1,6 @@
-##### CONFIGS OF DAEMON #######
+#################################### CONFIGS OF DAEMON ##################################
 
-daysBackup=1 #Days to exec the backup
-
-saveCopies=3 #How many copies want to save. Rotation
+################ DATABASE CONFIG #######################
 
 engineDb=mysql #Engine of the database. Options: mysql, sqlserver
 
@@ -12,16 +10,35 @@ databaseUser=root
 
 databasePassword=root
 
-encryptMethod=aes-256-cbc #sha256, etc Encrypt method
+################## ENCRYPT CONFIG ######################
+
+encryptMethod=aes-256-cbc #OPTIONS: sha256, etc Encrypt method
 
 secretKey=prueba
 
-mailSend=franco.battista99@outlook.com #Receptors
+################# REMOTE SERVER CONFIG ####################
 
-server=drive #Server/cloud/repo to save the data. Options: drive (Google Drive), github
+server=dropbox #Server/cloud/repo to save the data. Options: drive (Google Drive), github, dropbox
 
-driveUser=prueba
+accessToken=sl.aaaBziMqx8Z53bmAhtBBCT4PRhq_6-dYB26sb0z8wHiQidEMqB_KJGQ5LG4EnFum9O-bm7eMU96YZ5N9IILV5yJw9AvsNEJbu2ElY9jZFxKDqVWFmWYYfKJ-3Bibg0n05SJhdOYkmtuC5F3Fbo0Lr82
 
-drivePassword=prueba
+remoteBackupDir=/backups
+
+
+################ MAIL CONFIG ########################
+
+mailService=gmail #
+
+mailUser=francoarquero99@gmail.com #
+
+mailPassword=iepx zfli twue myzq  #
+
+receptors=franco.battista99@outlook.com,franco.battista99@outlook.com #Receptors
+
+################# OTHER CONFIG ####################
 
 backupDir=./backups
+
+daysBackup=1 #Days to exec the backup
+
+daysToDeleteCopy=3 #How many days user want to delete a copy. Rotation

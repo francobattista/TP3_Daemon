@@ -18,7 +18,9 @@
   "homepage": "https://github.com/francobattista/TP3_Daemon#readme",
   "dependencies": {
     "crypto": "^1.0.1",
+    "dropbox": "^10.34.0",
     "http": "^0.0.1-security",
-    "logging": "^3.3.0"
+    "logging": "^3.3.0",
+    "nodemailer": "^6.9.13"
   }
 }

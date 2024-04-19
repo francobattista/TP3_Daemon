@@ -3,7 +3,7 @@ Description=ej_daemon.js
 
 [Service]
 User=franco
-ExcecStart=/usr/bin/node /home/franco/tp_daemon/ej_daemon.js
+ExecStart=/usr/bin/node /home/franco-debian/Documentos/TP3_Daemon/ej_daemon.js
 Restart=on-failure
 StandardOutput=syslog
 StandardError=syslog

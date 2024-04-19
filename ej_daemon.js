@@ -293,26 +293,34 @@ const sendMail = (iserror) => {
 
 const initDaemon = async () => {
     try {
-        readConf();
-        await initDrive();
-        await makeBackup();
-        const fileName = await encryptData();
-        await uploadFile(fileName);
-        await deleteCurrentNotEncrypted();
-
-        //Mejor que sean al final por si hay algun error que no se haya eliminado
-        await deleteOldFileLocal();
-        await deleteOldFileRemote();
-
-        await sendMail();
-        console.log(config.currentDate.toISOString() + "INFO: Copia de seguridad completada correctamente y enviada al servidor")
+        while(true){
+            setTimeout(async() => {
+                console.log("Ejecutando");
+                readConf();
+                await initDrive();
+                await makeBackup();
+                const fileName = await encryptData();
+                await uploadFile(fileName);
+                await deleteCurrentNotEncrypted();
+    
+                //Mejor que sean al final por si hay algun error que no se haya eliminado
+                await deleteOldFileLocal();
+                await deleteOldFileRemote();
+    
+                await sendMail();
+                console.log(config.currentDate.toISOString() + "INFO: Copia de seguridad completada correctamente y enviada al servidor")
+                
+            }, 2000);
+               
+        }
     } catch (error) {
         console.log("Cazando el error: " + error);
+        //Cambiar para ver porque da error
         await sendMail(error);
         //console.error(config.currentDate.toISOString() + error)
         
     }
 }
 
-
+//Si cambiamos la configuracion, debemos darle a restart al servicio. Para asi entiende los cambios
 initDaemon();

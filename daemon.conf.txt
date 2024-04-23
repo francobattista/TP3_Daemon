@@ -12,7 +12,7 @@ databasePassword=root
 
 ################## ENCRYPT CONFIG ######################
 
-encryptMethod=aes-256-cbc #OPTIONS: sha256, etc Encrypt method
+encryptMethod=aes-256-cbc #Encrypt method
 
 secretKey=prueba
 
@@ -20,7 +20,7 @@ secretKey=prueba
 
 server=dropbox #Server/cloud/repo to save the data. Options: drive (Google Drive), github, dropbox
 
-accessToken=sl.aaaBziMqx8Z53bmAhtBBCT4PRhq_6-dYB26sb0z8wHiQidEMqB_KJGQ5LG4EnFum9O-bm7eMU96YZ5N9IILV5yJw9AvsNEJbu2ElY9jZFxKDqVWFmWYYfKJ-3Bibg0n05SJhdOYkmtuC5F3Fbo0Lr82
+accessToken=sl.Bz2eBtbBAEEvJ5sy-tpsyxZn20Un8XCN3_b8xjFdQyodi6GBBh5E_DJ2hSRcME7JcLwADthEZP9AJxx0HNsVzmjzlFW8QjlPGL2F3darIpFW8YS_Dj260kKhsLBBsvvGhqmawLr3_Q-F-a8I_C7R
 
 remoteBackupDir=/backups
 
@@ -33,7 +33,7 @@ mailUser=francoarquero99@gmail.com #
 
 mailPassword=iepx zfli twue myzq  #
 
-receptors=franco.battista99@outlook.com,franco.battista99@outlook.com #Receptors
+receptors=franco.battista99@outlook.com #Receptors
 
 ################# OTHER CONFIG ####################
 
@@ -42,3 +42,7 @@ backupDir=./backups
 daysBackup=1 #Days to exec the backup
 
 daysToDeleteCopy=3 #How many days user want to delete a copy. Rotation
+
+errorLog=/var/log/daemon/error.log
+
+successLog=/var/log/daemon/success.log

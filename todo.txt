@@ -1,0 +1,7 @@
+- Cambiar los exec por librerias para no usar el exec
+
+- Probar como seguir la ejecucion si lanza un error
+
+- Probarlo completamente
+
+- Comprobar fallas en configuracion, como responde el programa a las fallas

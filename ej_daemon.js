@@ -4,6 +4,9 @@ const { exec } = require('child_process')
 const { Dropbox } = require('dropbox')
 const nodemailer = require('nodemailer')
 const winston = require('winston')
+const crypto = require('crypto');
+const mysqldump = require('mysqldump')
+
 
 let dbx;
 let infoLogger;
@@ -82,7 +85,32 @@ const readConf = () => {
 const mysqlBackup = () => {
 
     console.log("BACKUP")
+    
     return new Promise(async (resolve, reject) => {
+        try {
+            const options = {
+                connection: {
+                    host: '127.0.0.1',
+                    user: config.databaseUser,
+                    password: config.databasePassword,
+                    database: config.databaseName
+                },
+                dumpToFile: `${config.backupDir}/${config.currentDate.toISOString()}.sql`
+            };
+
+            console.log(options)
+            await mysqldump(options);
+            console.log("resuelto");
+            resolve();
+        } catch (error) {
+            errorLogger.error(config.currentDate.toISOString() + " ERROR: " + error);
+            reject(new Error("Ha ocurrido un error generando el backup. Chequee los archivos de log para más información"));
+        }
+    });
+
+
+
+    /*return new Promise(async (resolve, reject) => {
         try {
             const command = `mysqldump -u ${config.databaseUser} -p${config.databasePassword} ${config.databaseName} > ${config.backupDir}/${config.currentDate.toISOString()}.sql`;
             
@@ -102,7 +130,7 @@ const mysqlBackup = () => {
             reject(new Error("Ha ocurrido un error generando el backup. Chequee los archivos de log para mas informacion"))
         }      
    
-    })
+    })*/
 }
 
 // ELIJE LA BASE DE DATOS
@@ -137,6 +165,32 @@ const encryptData = () =>  {
     console.log("ENCRYPT")
     return new Promise(async (resolve, reject) =>{
         try {
+            // Ruta del archivo a cifrar
+            const inputFile = `${config.backupDir}/${config.currentDate.toISOString()}.sql`;
+
+            // Ruta donde se guardará el archivo cifrado
+            const encryptedFile = `${config.backupDir}/${config.currentDate.toISOString()}-encrypted.sql`;
+
+            const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(config.secretKey,'hex'), Buffer.from(config.IV, 'hex'));
+            
+            // Flujo de entrada y salida de archivos
+            const inputStream = fs.createReadStream(inputFile);
+            const outputStream = fs.createWriteStream(encryptedFile);
+            
+            // Pipe para cifrar el archivo de entrada y escribir el archivo cifrado
+            inputStream.pipe(cipher).pipe(outputStream);
+            
+            outputStream.on('finish', () => {
+              console.log('Archivo encriptado correctamente.');
+              resolve(`${config.currentDate.toISOString()}-encrypted.sql`);
+
+            });
+            
+            outputStream.on('error', (err) => {
+              console.error('Error al encriptar el archivo:', err);
+              throw err;
+            });
+            /*
             const command = `openssl enc -${config.encryptMethod} -k ${config.secretKey} -salt -in ${config.backupDir}/${config.currentDate.toISOString()}.sql -out ${config.backupDir}/${config.currentDate.toISOString()}-encrypted.sql`;
             
             exec(command, (error, stdout, stderror) => {
@@ -151,7 +205,9 @@ const encryptData = () =>  {
                     reject(new Error("Ha ocurrido un error encriptando el backup. Chequee los archivos de log para mas informacion"))   
                 }
             });                
-        } catch (error) {
+        */} catch (error) {
+
+            console.log(error);
             errorLogger.error(config.currentDate.toISOString() + " ERROR: " + error)
             reject(new Error("Ha ocurrido un error encriptando el backup. Chequee los archivos de log para mas informacion"))        }
 
@@ -199,7 +255,7 @@ const deleteOldFileLocal = async () => {
 
         console.log("DELETE OLD")
         //TODO : Variable de configuracion
-        const currentFiles = fs.readdirSync("./backups")
+        const currentFiles = fs.readdirSync(config.backupDir)
 
         if(currentFiles && currentFiles.length){
             currentFiles.forEach((fileName) => {
@@ -207,7 +263,7 @@ const deleteOldFileLocal = async () => {
     
                 const daysTranscurred = (config.currentDate - creationDate) / (1000 * 3600 * 24);
     
-                if(daysTranscurred > config.daysToDeleteCopy){
+                if((config.currentDate - creationDate) > config.daysToDeleteCopy){
                     const deleted = fs.unlinkSync(`${config.backupDir}/${fileName}`);
                 }
             })
@@ -307,8 +363,14 @@ const sendMail = (message) => {
 const initDaemon = async () => {
     try {
         readConf();
+
         initLogger();
+
         await initDrive();
+
+        if (!fs.existsSync(config.backupDir)) 
+            fs.mkdirSync(config.backupDir, { recursive: true });
+        
         
         const interval = (config.daysBackup * 24 * 60 * 60 * 1000); // Intervalo en milisegundos a partir de los dias de la configuracion.
         const executeTask = async () => {

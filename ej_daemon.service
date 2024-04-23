@@ -5,8 +5,6 @@ Description=ej_daemon.js
 User=franco
 ExecStart=/usr/bin/node /home/franco-debian/Documentos/TP3_Daemon/ej_daemon.js
 Restart=on-failure
-StandardOutput=syslog
-StandardError=syslog
 SyslogIdentifier=DaemonEJemplo
 
 [Install]

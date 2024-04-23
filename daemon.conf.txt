@@ -14,7 +14,11 @@ databasePassword=root
 
 encryptMethod=aes-256-cbc #Encrypt method
 
-secretKey=prueba
+secretKey=10cba052b7c01085e47610bf677db7370b9e19fd4c0efc45d277f975af11a636 #Clave encriptada por el usuario con 32 bytes, con openssl : "echo -n "mi_clave_super_secreta:salt" | openssl sha256" , Donde se puede moficiar "mi_clave..." y el "salt". La clave DEBE estar en HEXA
+
+IV=84b2564d71ddd9505c942cb65a2a77cb #IV aleatorio generado con openSsl "openssl rand -hex 16"
+
+#EJEMPLO DESENCRIPTAR: openssl enc -d -aes-256-cbc -in 2024-04-23T02\:24\:46.969Z-encrypted.sql -out archivo.sql -K 10cba052b7c01085e47610bf677db7370b9e19fd4c0efc45d277f975af11a636 -iv 84b2564d71ddd9505c942cb65a2a77cb
 
 ################# REMOTE SERVER CONFIG ####################
 
@@ -37,7 +41,7 @@ receptors=franco.battista99@outlook.com #Receptors
 
 ################# OTHER CONFIG ####################
 
-backupDir=./backups
+backupDir=/home/franco/Documentos/backups
 
 daysBackup=1 #Days to exec the backup
 

@@ -8,13 +8,13 @@ Para ejecutar el Daemon, necesitamos primero pasar por el archivo de configuraci
 
 Dentro del archivo "daemon.conf.txt" encontraremos las configuraciones para el daemon, junto con comentarios explicativos y las opciones que puede contener cada atributo de configuracion.
 
-##Configuracion de la base de datos
+## Configuracion de la base de datos
 
 Nos ubicamos en la seccion "CONFIGURACION BASE DE DATOS".
 
 Aqui elegiremos el motor de la base de datos, nombre de la base de datos, usuario y contraseña de la misma.
 
-##Configuracion de la encriptacion
+## Configuracion de la encriptacion
 
 Primero nos ubicamos en la seccion "CONFIGURACION DE ENCRIPTACION".
 
@@ -35,7 +35,7 @@ secretKey=<claveGenerada>
 IV=<VectorGenerado>
 
 
-##Configuracion del servidor remoto
+## Configuracion del servidor remoto
 
 Nos ubicamos en la seccion "CONFIGURACION SERVIDOR REMOTO".
 
@@ -44,7 +44,7 @@ Luego, ingresamos el token de acceso generado en este caso en la consola de apli
 Para finalizar, ingresamos la ubicacion donde deseamos que se guarden los archivos en el servidor remoto, en la clave "remoteBackupDir"
 
 
-##Configuracion del mail
+## Configuracion del mail
 
 Nos ubicamos en la seccion "CONFIGURACION DEL MAIL".
 
@@ -55,14 +55,14 @@ En la clave ***receptors*** se enconrtaran los receptores de los mails. Puede se
 *Ejemplo: receptors=franco.battista99@outlook.com,tobiaseltoti5@gmail.com*
 
 
-##Configuracion final
+## Configuracion final
 
 Nos ubicamos en la seccion "OTRA CONFIGURACION".
 
 Aqui se podra determinar la ubicacion de los archivos de log, la ubicacion que deseamos para el backup local, y la cantidad de dias para ejecutar el daemon y su rotacion de archivos.
 
 
-##Ejecucion del daemon
+## Ejecucion del daemon
 
 Para la ejecucion del daemon, se utilizó systemd.
 

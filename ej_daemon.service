@@ -2,10 +2,12 @@
 Description=ej_daemon.js
 
 [Service]
-User=franco
-ExecStart=/usr/bin/node /home/franco-debian/Documentos/TP3_Daemon/ej_daemon.js
+User=root
+ExecStart=/usr/bin/node /home/franco/Documentos/TP3_Daemon/ej_daemon.js
 Restart=on-failure
-SyslogIdentifier=DaemonEJemplo
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=DaemonEjemplo
 
 [Install]
 WantedBy=multi-user.target

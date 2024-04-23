@@ -26,20 +26,26 @@ const initDrive = async () => {
 
 
 const initLogger = () => {
-    // Configuración de los transportes (destinos) de los logs
-    if(!config.errorLog) config.errorLog="/var/log/daemonTP3/error.log"
-    if(!config.successLog) config.successLog="/var/log/daemonTP3/success.log"
-   
-    errorLogger = winston.createLogger({
-        transports: [
-            new winston.transports.File({ filename: config.errorLog, level: 'error' })
-        ],
-    });
+    try {
+            // Configuración de los transportes (destinos) de los logs
+        if(!config.errorLog) config.errorLog="/var/log/daemonTP3/error.log"
+        if(!config.successLog) config.successLog="/var/log/daemonTP3/success.log"
+    
+        errorLogger = winston.createLogger({
+            transports: [
+                new winston.transports.File({ filename: config.errorLog, level: 'error' })
+            ],
+        });
 
-    infoLogger = winston.createLogger({
-        transports: [
-            new winston.transports.File({ filename: config.successLog, level: 'info' }), //log de success
-    ]})
+        infoLogger = winston.createLogger({
+            transports: [
+                new winston.transports.File({ filename: config.successLog, level: 'info' }), //log de success
+            ]})
+
+        } catch (error) {
+            //error en el log, nunca voy a saber cual es
+    }
+
         
 }
 
@@ -47,33 +53,28 @@ const initLogger = () => {
 const readConf = () => {
     try {
 
-        console.log("Leyendo config")
         const lines = fs.readFileSync(daemonConfig.config.configDir, 'utf-8').split('\n');
-
         lines.forEach((line) => {
             
             if (line.trim() === '' || line.trim().startsWith('#')) {
                 return;
             }
         
-            // Separe the comments
+            // Separamos comentarios de clave-valor
             const [keyValue, comments] = line.split('#');
 
-            //Take the key and the value
+            //Obtenemos clave y valor por separado
             const [key, value] = keyValue.trim().split('=');
         
         
-            // Almacena el campo y el valor en el objeto de configuración
+            // Almacena un objeto de configuracion con las claves del archivo de conf
             config[key.trim()] = value.trim();
 
-            // También puedes manejar los comentarios si los necesitas
             if (comments && comments.length > 0) {
-            // Haz algo con los comentarios si es necesario
-            }
-
-            console.log(config);
-        
+            // Manejo de comentarios (sin uso)
+            }        
         })
+
     } catch (error) {
         errorLogger.error(config.currentDate.toISOString() + "ERROR: " + error)
         throw new Error("Ha ocurrido un error leyendo la configuracion. Revisela.");
@@ -83,8 +84,6 @@ const readConf = () => {
 // GENERA EL BACKUP PARA BASE DE DATOS MYSQL
 
 const mysqlBackup = () => {
-
-    console.log("BACKUP")
     
     return new Promise(async (resolve, reject) => {
         try {
@@ -98,9 +97,7 @@ const mysqlBackup = () => {
                 dumpToFile: `${config.backupDir}/${config.currentDate.toISOString()}.sql`
             };
 
-            console.log(options)
             await mysqldump(options);
-            console.log("resuelto");
             resolve();
         } catch (error) {
             errorLogger.error(config.currentDate.toISOString() + " ERROR: " + error);
@@ -137,7 +134,6 @@ const mysqlBackup = () => {
 
 const makeBackup = () => {
 
-    console.log("BACKUP2")
     return new Promise(async (resolve,reject) => {
         try {
             switch(config.engineDb){
@@ -162,7 +158,6 @@ const makeBackup = () => {
 
 const encryptData = () =>  {
 
-    console.log("ENCRYPT")
     return new Promise(async (resolve, reject) =>{
         try {
             // Ruta del archivo a cifrar
@@ -181,15 +176,14 @@ const encryptData = () =>  {
             inputStream.pipe(cipher).pipe(outputStream);
             
             outputStream.on('finish', () => {
-              console.log('Archivo encriptado correctamente.');
               resolve(`${config.currentDate.toISOString()}-encrypted.sql`);
 
             });
             
             outputStream.on('error', (err) => {
-              console.error('Error al encriptar el archivo:', err);
               throw err;
             });
+
             /*
             const command = `openssl enc -${config.encryptMethod} -k ${config.secretKey} -salt -in ${config.backupDir}/${config.currentDate.toISOString()}.sql -out ${config.backupDir}/${config.currentDate.toISOString()}-encrypted.sql`;
             
@@ -205,9 +199,8 @@ const encryptData = () =>  {
                     reject(new Error("Ha ocurrido un error encriptando el backup. Chequee los archivos de log para mas informacion"))   
                 }
             });                
-        */} catch (error) {
-
-            console.log(error);
+        */
+        } catch (error) {
             errorLogger.error(config.currentDate.toISOString() + " ERROR: " + error)
             reject(new Error("Ha ocurrido un error encriptando el backup. Chequee los archivos de log para mas informacion"))        }
 
@@ -219,7 +212,6 @@ const encryptData = () =>  {
 // SUBE LA COPIA DE SEGURIDAD ENCRIPTADA A DROPBOX
 const uploadFile = async (fileName) => {
     
-    console.log("UPLOAD")
     return new Promise(async (resolve, reject) => {
         const fileContent = fs.readFileSync(`${config.backupDir}/${fileName}`, 'utf-8')
         try {
@@ -236,7 +228,6 @@ const uploadFile = async (fileName) => {
 
 const deleteCurrentNotEncrypted =  () => {
        
-    console.log("DELETE")
     return new Promise(async (resolve, reject) => {
         try {
             const deleted = fs.unlinkSync(`${config.backupDir}/${config.currentDate.toISOString()}.sql`);
@@ -253,8 +244,6 @@ const deleteCurrentNotEncrypted =  () => {
 const deleteOldFileLocal = async () => {
     try {
 
-        console.log("DELETE OLD")
-        //TODO : Variable de configuracion
         const currentFiles = fs.readdirSync(config.backupDir)
 
         if(currentFiles && currentFiles.length){
@@ -281,7 +270,6 @@ const deleteOldFileLocal = async () => {
 const deleteOldFileRemote = async () => {
     try {
         
-        console.log("DELETE OLD REMOTE")
         const files = (await dbx.filesListFolder({path: config.remoteBackupDir})).result
     
         if(files && files.entries && files.entries.length){
@@ -305,7 +293,6 @@ const deleteOldFileRemote = async () => {
 
 const sendMail = (message) => {
 
-    console.log("SENDMAIL")
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -317,7 +304,7 @@ const sendMail = (message) => {
                     pass: config.mailPassword
                 }
             })
-
+            
             const receptores = config.receptors.split(',');
 
             if(receptores && receptores.length){
@@ -362,9 +349,9 @@ const sendMail = (message) => {
 // INICIO DEL DAEMON
 const initDaemon = async () => {
     try {
-        readConf();
-
         initLogger();
+        
+        readConf();
 
         await initDrive();
 
@@ -378,9 +365,7 @@ const initDaemon = async () => {
 
                 //Iniciado acá para cambiar cada ves que se lee una configuracion.
                 config.currentDate = new Date();
-
-                console.log("-------------------------------------------------------------");
-                
+               
                 await makeBackup();
 
                 const fileName = await encryptData();

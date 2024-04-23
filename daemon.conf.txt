@@ -1,52 +1,52 @@
-#################################### CONFIGS OF DAEMON ##################################
+#################################### CONFIGS DEL DAEMON ##################################
 
-################ DATABASE CONFIG #######################
+################ CONFIGURACION BASE DE DATOS #######################
 
 engineDb=mysql #Engine of the database. Options: mysql, sqlserver
 
-databaseName=prueba
+databaseName=prueba #Nombre de la base de datos
 
-databaseUser=root
+databaseUser=root #Usuario de la base de datos
 
-databasePassword=root
+databasePassword=root #Contraseña de la base de datos
 
-################## ENCRYPT CONFIG ######################
+################## CONFIGURACION DE ENCRIPTACION ######################
 
-encryptMethod=aes-256-cbc #Encrypt method
+encryptMethod=aes-256-cbc #Metodo de encriptacion. Opciones: aes-256-cbc 
 
 secretKey=10cba052b7c01085e47610bf677db7370b9e19fd4c0efc45d277f975af11a636 #Clave encriptada por el usuario con 32 bytes, con openssl : "echo -n "mi_clave_super_secreta:salt" | openssl sha256" , Donde se puede moficiar "mi_clave..." y el "salt". La clave DEBE estar en HEXA
 
-IV=84b2564d71ddd9505c942cb65a2a77cb #IV aleatorio generado con openSsl "openssl rand -hex 16"
+IV=84b2564d71ddd9505c942cb65a2a77cb #IV aleatorio generado con openSsl "openssl rand -hex 16" .Utilizado para meotodo aes-256-cbc.
 
 #EJEMPLO DESENCRIPTAR: openssl enc -d -aes-256-cbc -in 2024-04-23T02\:24\:46.969Z-encrypted.sql -out archivo.sql -K 10cba052b7c01085e47610bf677db7370b9e19fd4c0efc45d277f975af11a636 -iv 84b2564d71ddd9505c942cb65a2a77cb
 
-################# REMOTE SERVER CONFIG ####################
+################# CONFIGURACION SERVIDOR REMOTO ####################
 
-server=dropbox #Server/cloud/repo to save the data. Options: drive (Google Drive), github, dropbox
+server=dropbox #Server/cloud/repo donde se guardara la informacion. Options: dropbox
 
-accessToken=sl.Bz2eBtbBAEEvJ5sy-tpsyxZn20Un8XCN3_b8xjFdQyodi6GBBh5E_DJ2hSRcME7JcLwADthEZP9AJxx0HNsVzmjzlFW8QjlPGL2F3darIpFW8YS_Dj260kKhsLBBsvvGhqmawLr3_Q-F-a8I_C7R
+accessToken=token #Token de acceso al servidor remoto
 
-remoteBackupDir=/backups
+remoteBackupDir=/backups #Carpeta donde se almacenaran las copias de seguridad en el servidor remoto
 
 
-################ MAIL CONFIG ########################
+################ CONFIGURACION DEL MAIL ########################
 
-mailService=gmail #
+mailService=gmail #Servicio de email que enviara los correos
 
-mailUser=francoarquero99@gmail.com #
+mailUser=mail@prueba.com #Email que enviará los correos
 
-mailPassword=iepx zfli twue myzq  #
+mailPassword=iepx password  #Password para el envio de correos
 
-receptors=franco.battista99@outlook.com #Receptors
+receptors=franco.battista99@outlook.com #Receptores del mail. Puede ser uno o varios, se separados con ","
 
-################# OTHER CONFIG ####################
+################# OTRA CONFIGURACION ####################
 
 backupDir=/home/franco/Documentos/backups
 
-daysBackup=1 #Days to exec the backup
+daysBackup=1 #Periodo de ejecucion en días
 
-daysToDeleteCopy=3 #How many days user want to delete a copy. Rotation
+daysToDeleteCopy=3 #Rotacion de copias. Cada cuantos dias se desea borrar una copia
 
-errorLog=/var/log/daemon/error.log
+errorLog=/var/log/daemonTP3/error.log #Ubicacion del archivo de Log de error
 
-successLog=/var/log/daemon/success.log
+successLog=/var/log/daemonTP3/success.log #Ubicacion del archivo de Log de info

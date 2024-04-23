@@ -1,3 +1,0 @@
-- Readme
-
-- Probarlo como daemon, cambiando configiuraciones, poniendo start y stop

@@ -4,6 +4,10 @@
 
 El Daemon consta de una gestión de copias de seguridad de una base de datos, encriptacion, envío del backup a un servidor remoto, almacenamiento y envio de mails a ciertos usuarios informando que una nueva copia de seguridad fue generada (o que hubo un error). Además, se borrará una copia de seguridad que exceda una cantidad de días. El Daemon deja un log de todas las copias que fue haciendo. Todo esto utilizando systemd.
 
+REQUERIMIENTOS
+-NodeJS
+-Mysql (o un motor de base de datos, por default mysql)
+
 Para ejecutar el Daemon, necesitamos primero pasar por el archivo de configuracion. Su ubicacion es por default la raiz del repositorio. Si este se modifica, se debe modificar el archivo ***ej_dameon.config.js***
 
 Dentro del archivo "daemon.conf.txt" encontraremos las configuraciones para el daemon, junto con comentarios explicativos y las opciones que puede contener cada atributo de configuracion.
@@ -73,7 +77,13 @@ y no pueden ser modificadas.
 
 Para la ejecucion del daemon, se utilizó systemd.
 
-Para ejecutarlo, se debe enviar el archivo ***ej_daemon.service*** a la carpeta ***/etc/systemd/system***. 
+Primero, es necesario modificar el archivo ***ej_daemon.service***, cambiando la ubicacion del ***ExecStart***, a la ubicacion donde fue clonado el repositorio. Quedando de la siguiente forma:
+
+***ExecStart=/usr/bin/node /ruta/al/ejecutable.js***
+
+En el caso que se uitlicen herramientas como nvm, ***/usr/bin/node*** debera ser modificada por el path al ejecutable de NodeJS.
+
+Para la ejecución, se debe enviar el archivo ***ej_daemon.service*** a la carpeta ***/etc/systemd/system***. 
 
 Luego se debe ejecutar el comando ***sudo systemctl start ej_daemon.service*** si se desea ejecutar el mismo, y ***sudo systemctl stop ej_daemon.service*** si se desea detenerlo. 
 

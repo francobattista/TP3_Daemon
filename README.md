@@ -2,7 +2,7 @@
 
 **Integrantes: Franco Battista y Tobias Andrade**
 
-Gestión de copias de seguridad de una base de datos, encriptacion, envío de este backup a un servidor remoto, almacenamiento y envio de mails a ciertos usuarios informando que una nueva copia de seguridad fue generada (o que hubo un error). Además, se borra una copia de seguridad que exceda una cantidad de días. El Daemon deja un log de todas las copias que fue haciendo. Todo esto utilizando systemd.
+El Daemon consta de una gestión de copias de seguridad de una base de datos, encriptacion, envío del backup a un servidor remoto, almacenamiento y envio de mails a ciertos usuarios informando que una nueva copia de seguridad fue generada (o que hubo un error). Además, se borrará una copia de seguridad que exceda una cantidad de días. El Daemon deja un log de todas las copias que fue haciendo. Todo esto utilizando systemd.
 
 Para ejecutar el Daemon, necesitamos primero pasar por el archivo de configuracion. Su ubicacion es: ""
 

@@ -77,7 +77,9 @@ y no pueden ser modificadas.
 
 Para la ejecucion del daemon, se utilizó systemd.
 
-Primero, es necesario modificar el archivo ***ej_daemon.service***, cambiando la ubicacion del ***ExecStart***, a la ubicacion donde fue clonado el repositorio. Quedando de la siguiente forma:
+Primero, clonamos el repositorio con ***git clone urlRepositorio***. Luego, ingresamos ***npm install*** para instalar las dependencias necesarias.
+
+Luego , es necesario modificar el archivo ***ej_daemon.service***, cambiando la ubicacion del ***ExecStart***, a la ubicacion donde fue clonado el repositorio. Quedando de la siguiente forma:
 
 ***ExecStart=/usr/bin/node /ruta/al/ejecutable.js***
 

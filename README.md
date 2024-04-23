@@ -4,7 +4,7 @@
 
 El Daemon consta de una gestión de copias de seguridad de una base de datos, encriptacion, envío del backup a un servidor remoto, almacenamiento y envio de mails a ciertos usuarios informando que una nueva copia de seguridad fue generada (o que hubo un error). Además, se borrará una copia de seguridad que exceda una cantidad de días. El Daemon deja un log de todas las copias que fue haciendo. Todo esto utilizando systemd.
 
-Para ejecutar el Daemon, necesitamos primero pasar por el archivo de configuracion. Su ubicacion es: ""
+Para ejecutar el Daemon, necesitamos primero pasar por el archivo de configuracion. Su ubicacion es por default la raiz del repositorio. Si este se modifica, se debe modificar el archivo ***ej_dameon.config.js***
 
 Dentro del archivo "daemon.conf.txt" encontraremos las configuraciones para el daemon, junto con comentarios explicativos y las opciones que puede contener cada atributo de configuracion.
 
@@ -31,8 +31,10 @@ Luego, es necesario el vector de inciacion, que sera una clave de 16 bytes, tamb
 Nos guardamos ambas claves y las ingresamos en el archivo de configuracion, quedando de la siguiente forma:
 
 encryptMethod=aes-256-cbc
-secretKey=<claveGenerada>
-IV=<VectorGenerado>
+
+secretKey=< ClaveGenerada >
+
+IV=< VectorGenerado >
 
 
 ## Configuracion del servidor remoto

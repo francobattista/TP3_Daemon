@@ -63,6 +63,11 @@ Nos ubicamos en la seccion "OTRA CONFIGURACION".
 
 Aqui se podra determinar la ubicacion de los archivos de log, la ubicacion que deseamos para el backup local, y la cantidad de dias para ejecutar el daemon y su rotacion de archivos.
 
+La ubicacion de los logs es:
+
+***/var/log/daemonTP3*** 
+
+y no pueden ser modificadas.
 
 ## Ejecucion del daemon
 

@@ -47,6 +47,6 @@ daysBackup=1 #Periodo de ejecucion en días
 
 daysToDeleteCopy=3 #Rotacion de copias. Cada cuantos dias se desea borrar una copia
 
-errorLog=/var/log/daemonTP3/error.log #Ubicacion del archivo de Log de error
+# errorLog=/var/log/daemonTP3/error.log Ubicacion del archivo de Log de error DESHABILITADA
 
-successLog=/var/log/daemonTP3/success.log #Ubicacion del archivo de Log de info
+# successLog=/var/log/daemonTP3/success.log #Ubicacion del archivo de Log de info DESHABILITADA

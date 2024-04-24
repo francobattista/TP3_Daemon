@@ -18,11 +18,11 @@ Nos ubicamos en la sección "CONFIGURACIÓN BASE DE DATOS".
 
 Aqui elegiremos el motor de la base de datos, nombre de la base de datos, usuario y contraseña de la misma.
 
-## Configuración de la encriptacion
+## Configuración de la encriptación
 
 Primero nos ubicamos en la sección "CONFIGURACIÓN DE ENCRIPTACION".
 
-Para la encriptación, se necesita que se ingresen las claves dependiendo el metodo usado. En este caso, para el metodo aes-256-cbc es necesario una clave y un vector de inicialización. La clave necesaria es una clave de 32 bytes hasheada con sha256 y puede generarse de la siguiente forma, desde  la libreria ***openssl*** (o la libreria que se deseen, mientras mantegan el formato):
+Para la encriptación, se necesita que se ingresen las claves dependiendo del metodo usado. En este caso, para el metodo aes-256-cbc es necesario una clave y un vector de inicialización. La clave necesaria es una clave de 32 bytes hasheada con sha256 y puede generarse de la siguiente forma, desde  la libreria ***openssl*** (o la libreria que deseen, mientras mantegan el formato):
 
 ***echo -n "mi_clave_super_secreta:salt" | openssl sha256*** 
 
@@ -54,7 +54,7 @@ Para finalizar, ingresamos la ubicación donde deseamos que se guarden los archi
 
 Nos ubicamos en la sección "CONFIGURACIÓN DEL MAIL".
 
-Aquí, se utiliza la libreria ***"nodemailer"*** para el envío de correos. Para usar su correo para el envío de los mismos, debe elegir su proveedor, usuario, contraseña para que se ingrese correctamente a la cuenta y se puede enviar correos.
+Aquí, se utiliza la libreria ***"nodemailer"*** para el envío de correos. Para usar su correo para el envío de los mismos, debe elegir su proveedor, usuario, contraseña para que se ingrese correctamente a la cuenta y se pueda enviar correos.
 
 En la clave ***receptors*** se encontrarán los receptores de los mails. Puede ser uno o varios, separados con ",". La cantidad de mails debe ser mayor o igual a uno, sin necesidad de "," si es solo uno.
 

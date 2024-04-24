@@ -27,7 +27,7 @@ const initDrive = async () => {
 
 const initLogger = () => {
     try {
-            // Configuración de los transportes (destinos) de los logs
+            // Configuración de los destinos de los logs
         if(!config.errorLog) config.errorLog="/var/log/daemonTP3/error.log"
         if(!config.successLog) config.successLog="/var/log/daemonTP3/success.log"
     
@@ -49,7 +49,8 @@ const initLogger = () => {
         
 }
 
-// Read daemon settings
+// LEO CONFIGURACIÓN
+
 const readConf = () => {
     try {
 
@@ -168,11 +169,9 @@ const encryptData = () =>  {
 
             const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(config.secretKey,'hex'), Buffer.from(config.IV, 'hex'));
             
-            // Flujo de entrada y salida de archivos
+           
             const inputStream = fs.createReadStream(inputFile);
             const outputStream = fs.createWriteStream(encryptedFile);
-            
-            // Pipe para cifrar el archivo de entrada y escribir el archivo cifrado
             inputStream.pipe(cipher).pipe(outputStream);
             
             outputStream.on('finish', () => {
@@ -387,7 +386,7 @@ const initDaemon = async () => {
 
             }
 
-            setTimeout(executeTask, 20000);
+            setTimeout(executeTask, interval);
         };
 
         // Ejecutar la primera tarea

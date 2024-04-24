@@ -37,7 +37,7 @@ mailUser=mail@prueba.com #Email que enviará los correos
 
 mailPassword=iepx password  #Password para el envio de correos
 
-receptors=franco.battista99@outlook.com #Receptores del mail. Puede ser uno o varios, se separados con ","
+receptors=franco.battista99@outlook.com,tobiaseltoti5@gmail.com #Receptores del mail. Puede ser uno o varios, se separados con ","
 
 ################# OTRA CONFIGURACION ####################
 

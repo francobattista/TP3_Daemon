@@ -45,9 +45,21 @@ IV=< VectorGenerado >
 
 Nos ubicamos en la sección "CONFIGURACIÓN SERVIDOR REMOTO".
 
-Primero elegimos el servidor donde guardaremos los archivos, en este caso se propone dropbox.
+Primero elegimos el servidor donde guardaremos los archivos, en este caso UTILIZAR "DROPBOX".
 Luego, ingresamos el token de acceso generado en este caso en la consola de aplicación de dropbox, para poder acceder a su API.
 Para finalizar, ingresamos la ubicación donde deseamos que se guarden los archivos en el servidor remoto, en la clave "remoteBackupDir"
+
+Para crear el **accessToken** de dropbox, ingresar a:
+
+***https://www.dropbox.com/developers/apps***
+
+Si no se tiene una cuenta creada, crearla e ingresar nuevamente al link.
+
+Presionar en "Create App", seleccionar las opciones "Full scoped" y "Full Dropbox", y elegimos un nombre para la aplicacion.
+
+Se redigirá a las acciones de la aplicacion, ingresar en la seccion "Permissions" y tildar todos los checkboxes de las secciones "Account info" y "Files and folders"
+
+Luego, volver a la seccions "Settings", scrollear hacia abajo y seleccionar la opcion "Generate" en "Generate access token". Con eso, se generara un accesToken que se utilizará en el archivo de configuración.
 
 
 ## Configuración del mail
@@ -59,6 +71,14 @@ Aquí, se utiliza la libreria ***"nodemailer"*** para el envío de correos. Para
 En la clave ***receptors*** se encontrarán los receptores de los mails. Puede ser uno o varios, separados con ",". La cantidad de mails debe ser mayor o igual a uno, sin necesidad de "," si es solo uno.
 
 *Ejemplo: receptors=franco.battista99@outlook.com,tobiaseltoti5@gmail.com*
+
+ACLARACION
+
+Para loguearse con una cuenta de gmail, es necesario una contraseña de aplicacion. Para ello, seguimos los pasos especificados en el siguiente link:
+
+https://support.google.com/accounts/answer/185833?hl=es
+
+Cuando generamos la clave, la ingresamos en el archivo de configuración.
 
 
 ## Configuración final

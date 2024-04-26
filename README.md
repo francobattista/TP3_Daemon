@@ -18,6 +18,8 @@ Nos ubicamos en la sección "CONFIGURACIÓN BASE DE DATOS".
 
 Aqui elegiremos el motor de la base de datos, nombre de la base de datos, usuario y contraseña de la misma.
 
+Por el momento, solo se permite "mysql".
+
 ## Configuración de la encriptación
 
 Primero nos ubicamos en la sección "CONFIGURACIÓN DE ENCRIPTACION".
